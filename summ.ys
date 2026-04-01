@@ -1,0 +1,37 @@
+# y86ccmov.ys /home/bren/Software/sim/misc/yas
+.pos 0x0
+irmovl $9,%esi #counter
+irmovl $1, %edi #counter decreaser AND the first value
+irmovl $1, %ecx #Incrementer
+irmovl Array, %eax # set first indice equal to %eax
+rmmovl %edi, (%eax) # Set first indice equal to 1
+Loop:
+irmovl $4, %edx # Pointer incrementer
+addl %ecx, %ecx # Doubling the increment
+
+mrmovl (%eax), %ebx # MOST IMPORTANT STEP: MOVE VAL TO EAX 
+addl %ecx, %ebx # add to get the sum
+
+addl %edx, %eax # Move the pointer up 
+rmmovl %ebx, (%eax) # Move the value to the correct pointer
+subl %edx, %eax # Move the pointer down 
+subl %ecx, %ebx #sub to get sum back
+addl %edx, %eax # Move the pointer up 
+subl %edi, %esi # Subtract counter by 1
+jne Loop # Go again if not equal to zero
+
+halt
+
+
+.align 4
+Array:
+.long 0x0 # 1
+.long 0x1 # 2
+.long 0x2 # 3
+.long 0x3 # 4
+.long 0x4 # 5
+.long 0x5 # 6
+.long 0x6 # 7
+.long 0x7 # 8
+.long 0x8 # 9
+.long 0x9 # 10
